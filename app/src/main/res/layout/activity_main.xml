@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="55" />
+
+            <TextView
+                android:id="@+id/mTitleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@mipmap/ic_launcher"
+                android:drawablePadding="@dimen/sw_4dp"
+                android:gravity="center_vertical"
+                android:text="远洋客船金融服务平台"
+                android:textColor="#ff333333"
+                android:textSize="@dimen/sw_20sp"
+                tools:ignore="UseCompatTextViewDrawableXml" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="111" />
+
+            <TextView
+                android:id="@+id/mPriceTitleTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="记账金额"
+                android:textColor="#ff333333"
+                android:textSize="@dimen/sw_30sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="25" />
+
+            <TextView
+                android:id="@+id/mPriceTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.01"
+                android:textColor="#ff1a53ff"
+                android:textSize="@dimen/sw_37sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="25" />
+
+            <TextView
+                android:id="@+id/mOrderNumberTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单号：1256sd65655232"
+                android:textColor="#ff666666"
+                android:textSize="@dimen/sw_20sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="70" />
+
+            <com.ruffian.library.widget.RTextView
+                android:id="@+id/mPaymentCodeRtv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/sw_28dp"
+                android:layout_marginEnd="@dimen/sw_28dp"
+                android:drawableStart="@mipmap/ic_scan_code_pay"
+                android:drawablePadding="@dimen/sw_10dp"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/sw_24dp"
+                android:paddingTop="@dimen/sw_17dp"
+                android:paddingEnd="@dimen/sw_24dp"
+                android:paddingBottom="@dimen/sw_17dp"
+                android:text="二维码记账"
+                android:textColor="#ff333333"
+                android:textSize="@dimen/sw_23sp"
+                app:border_color_normal="#CBCBCB"
+                app:border_color_selected="#FF1A53FF"
+                app:border_width_normal="@dimen/sw_1dp" />
+
+            <Space
+                android:id="@+id/mOrderCardSpace"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="13" />
+
+            <com.ruffian.library.widget.RTextView
+                android:id="@+id/mCardPayRtv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/sw_28dp"
+                android:layout_marginEnd="@dimen/sw_28dp"
+                android:drawableStart="@mipmap/ic_card_pay"
+                android:drawablePadding="@dimen/sw_10dp"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/sw_24dp"
+                android:paddingTop="@dimen/sw_17dp"
+                android:paddingEnd="@dimen/sw_24dp"
+                android:paddingBottom="@dimen/sw_17dp"
+                android:text="船卡记账"
+                android:textColor="#ff333333"
+                android:textSize="@dimen/sw_23sp"
+                app:border_color_normal="#CBCBCB"
+                app:border_color_selected="#FF1A53FF"
+                app:border_width_normal="@dimen/sw_1dp" />
+
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="13" />
+
+            <com.ruffian.library.widget.RTextView
+                android:id="@+id/mFacePayRtv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/sw_28dp"
+                android:layout_marginEnd="@dimen/sw_28dp"
+                android:drawableStart="@mipmap/ic_face_pay"
+                android:drawablePadding="@dimen/sw_10dp"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/sw_24dp"
+                android:paddingTop="@dimen/sw_17dp"
+                android:paddingEnd="@dimen/sw_24dp"
+                android:paddingBottom="@dimen/sw_17dp"
+                android:text="人脸记账"
+                android:textColor="#ff333333"
+                android:textSize="@dimen/sw_23sp"
+                app:border_color_normal="#CBCBCB"
+                app:border_color_selected="#FF1A53FF"
+                app:border_width_normal="@dimen/sw_1dp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="113" />
+
+            <com.ruffian.library.widget.RTextView
+                android:id="@+id/mPayRTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/sw_28dp"
+                android:layout_marginEnd="@dimen/sw_28dp"
+                android:background="#1890FF"
+                android:gravity="center"
+                android:paddingTop="@dimen/sw_19dp"
+                android:paddingBottom="@dimen/sw_19dp"
+                android:text="立即记账"
+                android:textColor="#ffffffff"
+                android:textSize="@dimen/sw_21sp"
+                app:background_normal="#1890FF"
+                app:corner_radius="@dimen/sw_3dp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="117" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mOrderStateLl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="245" />
+
+            <ImageView
+                android:id="@+id/mStateIv"
+                android:layout_width="@dimen/sw_113dp"
+                android:layout_height="@dimen/sw_113dp"
+                android:src="@mipmap/ic_launcher" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="39" />
+
+            <TextView
+                android:id="@+id/mStateTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="记账失败！"
+                android:textColor="#ff333333"
+                android:textSize="@dimen/sw_23sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="280" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <com.ruffian.library.widget.RTextView
+                    android:id="@+id/mBackRTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minWidth="@dimen/sw_210dp"
+                    android:paddingTop="@dimen/sw_11dp"
+                    android:paddingBottom="@dimen/sw_11dp"
+                    android:text="返回点单页"
+                    android:textColor="#1A53FF"
+                    android:textSize="@dimen/sw_23sp"
+                    app:border_color_normal="#1A53FF"
+                    app:border_width_normal="@dimen/sw_1dp"
+                    app:corner_radius="@dimen/sw_100dp" />
+
+                <com.ruffian.library.widget.RTextView
+                    android:id="@+id/mStateRTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/sw_30dp"
+                    android:gravity="center"
+                    android:minWidth="@dimen/sw_210dp"
+                    android:paddingTop="@dimen/sw_11dp"
+                    android:paddingBottom="@dimen/sw_11dp"
+                    android:text="重新扫码"
+                    android:textColor="#1A53FF"
+                    android:textSize="@dimen/sw_23sp"
+                    app:border_color_normal="#1A53FF"
+                    app:border_width_normal="@dimen/sw_1dp"
+                    app:corner_radius="@dimen/sw_100dp" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="195" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mWaitLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#4D000000"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:focusable="true">
+
+            <com.ruffian.library.widget.RLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/sw_113dp"
+                android:layout_marginEnd="@dimen/sw_113dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/sw_10dp"
+                android:paddingTop="@dimen/sw_35dp"
+                android:paddingEnd="@dimen/sw_10dp"
+                android:paddingBottom="@dimen/sw_35dp"
+                app:background_normal="@color/white"
+                app:corner_radius="@dimen/sw_10dp">
+
+                <ImageView
+                    android:id="@+id/mWaitTipIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_wait_scan_code" />
+
+                <TextView
+                    android:id="@+id/mWaitTipTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/sw_23dp"
+                    android:gravity="center_horizontal"
+                    android:text="请出示二维码，在扫码口扫码"
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/sw_19sp" />
+            </com.ruffian.library.widget.RLinearLayout>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
