@@ -45,19 +45,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.AppFullScreenWebViewActivity"
+            android:name="com.shinbash.tpk.ui.AppFullScreenWebViewActivity"
             android:exported="false"
             android:theme="@style/FullScreenTheme" />
         <activity
-            android:name=".ui.CameraActivity"
+            android:name="com.shinbash.tpk.ui.CameraActivity"
             android:exported="false"
             android:theme="@style/FullScreenTheme" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.shinbash.tpk.ui.MainActivity"
             android:exported="false"
             android:theme="@style/FullScreenTheme" />
         <activity
-            android:name=".ui.MainActivity2"
+            android:name="com.shinbash.tpk.ui.InputWebActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme">
             <intent-filter>

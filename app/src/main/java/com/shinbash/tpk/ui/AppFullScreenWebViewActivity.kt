@@ -42,11 +42,22 @@ class AppFullScreenWebViewActivity : BaseActivity<BaseActivityWebviewFullscreenB
                     webViewFragment?.callJavascriptMethod("callbackScan('${hashMap["VALUE"]}')")
                 }
             }
-        }catch (e:java.lang.Exception){
+        } catch (e: java.lang.Exception) {
 
         }
 
 
+    }
+
+    // 跳转到人脸识别页面
+    private val mStartCameraActivityForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        val intent = it.data
+        if (intent != null) {
+            // 为空时记账成功 其他根据msg进行提示
+            val tipMsg = intent.getStringExtra(MainActivity.TIP_MSG)
+            val key = intent.getStringExtra("key")
+            webViewFragment?.callJavascriptMethod("callbackFaceRecognizer('${key}','${tipMsg}')")
+        }
     }
     private var cardType = 0
     private var startScanCardJob: Job? = null
@@ -177,6 +188,12 @@ class AppFullScreenWebViewActivity : BaseActivity<BaseActivityWebviewFullscreenB
         })
 
 
+    }
+
+    public fun startCameraActivity() {
+        val intent = Intent(this, CameraActivity::class.java)
+        intent.putExtra("isWeb", true)
+        mStartCameraActivityForResult.launch(intent)
     }
 
     public fun startReadCard() {

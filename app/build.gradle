@@ -14,7 +14,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.shinbash.tpk"
+        applicationId "com.shinbash.tpk.web"
         minSdk 25
         targetSdk 31
         versionCode versionMajor * 100 + versionMinor * 10 + versionPatch

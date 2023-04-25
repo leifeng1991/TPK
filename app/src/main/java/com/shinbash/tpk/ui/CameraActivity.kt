@@ -63,6 +63,10 @@ class CameraActivity : AppCompatActivity() {
     // 第二种方案 控制人脸识别请求次数
     private var mRequestFaceVeryTimes = 5
 
+    private val isWeb by lazy {
+        intent.getBooleanExtra("isWeb", false)
+    }
+
     // 人脸识别类，以及会掉
     private val baseImageDispose by lazy {
         BaseImageDispose(baseContext, object : BaseImageCallBack() {
@@ -250,19 +254,16 @@ class CameraActivity : AppCompatActivity() {
                 rawBitmap?.recycle()
                 mRequestFaceVeryTimes--
                 if (it.code == 200 && it.data != null && it.data.result != null && !TextUtils.isEmpty(it.data.result.key)) { // 成功
-                    // 更新订单
-                    orderUpdate(it.data.result.key, "${it.data.result.similar}")
-                } else { // 失败
-                    // 直接返回上一页
-                    if (mIsSecond) {
-                        if (mRequestFaceVeryTimes == 0) {
-                            setActivityResult(0, "人脸识别失败")
-                        } else {
-                            isPrameFace = false
-                        }
+                    if (isWeb) {
+                        setActivityResult(key = it.data.result.key)
                     } else {
-                        setActivityResult(0, "人脸识别失败")
+                        // 更新订单
+                        orderUpdate(it.data.result.key, "${it.data.result.similar}")
                     }
+
+                } else { // 失败
+                    faceRecognizerFailed()
+
                 }
 
             }, onFailure = {
@@ -270,20 +271,28 @@ class CameraActivity : AppCompatActivity() {
                 rotatedBitMap?.recycle()
                 rawBitmap?.recycle()
                 mRequestFaceVeryTimes--
-                // 直接返回上一页
-                if (mIsSecond) {
-                    if (mRequestFaceVeryTimes == 0) {
-                        setActivityResult(0, "人脸识别失败")
-                    } else {
-                        isPrameFace = false
-                    }
-                } else {
-                    setActivityResult(0, "人脸识别失败")
-                }
 
+                faceRecognizerFailed()
             })
         }
 
+    }
+
+    private fun faceRecognizerFailed() {
+        if (isWeb) {
+            setActivityResult(0, "人脸识别失败", key = "")
+        } else {
+            // 直接返回上一页
+            if (mIsSecond) {
+                if (mRequestFaceVeryTimes == 0) {
+                    setActivityResult(0, "人脸识别失败")
+                } else {
+                    isPrameFace = false
+                }
+            } else {
+                setActivityResult(0, "人脸识别失败")
+            }
+        }
     }
 
 
@@ -323,15 +332,15 @@ class CameraActivity : AppCompatActivity() {
 
     /**
      * @param orderState 记账状态 1 记账成功 0 记账失败
-     * @param errorType  错误类型 0 记账失败 1人脸识别超时 2后台返回错误信息提示
      * @param msg        提示信息
      * @param payOrderNo 记账成功订单号
      */
-    private fun setActivityResult(orderState: Int = 0, msg: String = "", payOrderNo: String = "") {
+    private fun setActivityResult(orderState: Int = 0, msg: String = "", payOrderNo: String = "", key: String = "") {
         setResult(RESULT_OK, Intent().apply {
             putExtra(ORDER_STATE, orderState)
             putExtra(TIP_MSG, msg)
             putExtra(INTENT_PAY_ORDER_NO, payOrderNo)
+            putExtra("key", key)
         })
         finish()
     }

@@ -387,6 +387,14 @@ class AppWebViewFragment : ReuseViewFragment<BaseFragmentWebviewBinding>() {
 
         @JvmOverloads
         @JavascriptInterface
+        fun startCameraActivity() {
+            if (activity is AppFullScreenWebViewActivity) {
+                (activity as AppFullScreenWebViewActivity).startCameraActivity()
+            }
+        }
+
+        @JvmOverloads
+        @JavascriptInterface
         fun invoke(api: String, params: String? = null, callback: String? = null) {
             LogUtil.i(TAG, "===========$api==========$params==========$callback")
             if (P_SCAN_QR == api) {
