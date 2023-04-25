@@ -190,7 +190,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
                 if (mDataBinding.mFacePayRtv.isSelected) {
                     mStartScanActivityForResult.launch(Intent(this@MainActivity, CameraActivity::class.java).apply {
-                        putExtra("mchOrderNo", "D789654126321")
+                        putExtra("mchOrderNo", mYBBean?.mchOrderNo ?: "")
                     })
                 }
 
