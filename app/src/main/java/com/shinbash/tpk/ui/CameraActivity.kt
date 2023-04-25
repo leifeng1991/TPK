@@ -10,6 +10,7 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.YuvImage
 import android.hardware.Camera
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -158,11 +159,13 @@ class CameraActivity : AppCompatActivity() {
                         val bmp = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size())
                         val m = Matrix()
                         // 台式机不进行旋转
-//                        if (bmp.width > bmp.height) {
-//                            // 纠正图像的旋转角度问题
-//                            m.setRotate(-90f)
-//                            LogUtil.i(TAG, "=================通过旋转纠正图片=====${bmp.width}${bmp.height}")
-//                        }
+                        if (Build.BOARD == "K2") {
+                            if (bmp.width > bmp.height) {
+                                // 纠正图像的旋转角度问题
+                                m.setRotate(90f)
+                                LogUtil.i(TAG, "=================通过旋转纠正图片=====${bmp.width}${bmp.height}")
+                            }
+                        }
                         val bm = Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, m, true)
                         if (!mIsSecond) {
                             baseImageDispose.dispose(bm)
@@ -205,10 +208,12 @@ class CameraActivity : AppCompatActivity() {
         if (rawBitmap.width > rawBitmap.height) {
             val matrix = Matrix()
             // 台式机不进行旋转
-//            matrix.postRotate(-90f)
+            if (Build.BOARD == "K2") {
+                matrix.postRotate(90f)
+            }
             val rotatedBitMap = Bitmap.createBitmap(rawBitmap, 0, 0, rawBitmap.width, rawBitmap.height, matrix, true)
             val os = ByteArrayOutputStream()
-            rotatedBitMap.compress(Bitmap.CompressFormat.JPEG, 80, os)
+            rotatedBitMap.compress(Bitmap.CompressFormat.JPEG, 100, os)
             val bytes = os.toByteArray()
             faceRecognizer(bytes, rawBitmap, rotatedBitMap)
             LogUtil.e(TAG, "==============rotatedBitMap===============${rotatedBitMap.width}===============${rotatedBitMap.height}")

@@ -39,7 +39,7 @@ class CameraHelper(activity: Activity, surfaceView: SurfaceView) : Camera.Previe
 
     fun takePic() {
         mCamera?.let {
-            it.takePicture({}, null, { data, _ ->
+            it.takePicture(null, null, { data, _ ->
                 it.startPreview()
 
                 mCallBack?.onTakePic(data)
@@ -112,7 +112,13 @@ class CameraHelper(activity: Activity, surfaceView: SurfaceView) : Camera.Previe
     fun startPreview() {
         mCamera?.let {
             Log.e("=====","====board========${Build.BOARD}")
-            it.setDisplayOrientation(0)
+            if (Build.BOARD == "K2"){
+                // K2需要进行旋转
+                it.setDisplayOrientation(90)
+            }else{
+                it.setDisplayOrientation(0)
+            }
+
             it.setPreviewDisplay(mSurfaceHolder)
 //            setCameraDisplayOrientation(mActivity)
             it.startPreview()

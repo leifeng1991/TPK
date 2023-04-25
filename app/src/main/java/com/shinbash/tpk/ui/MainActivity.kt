@@ -411,7 +411,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             rawReqExecute({ appApi.orderUpdate(RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)) }, onSuccess = {
                 LogUtil.e(TAG, "===orderUpdate========${it}")
                 mBackYBBean.orderState = if (it.code == 0) "2" else "3"
-                mBackYBBean.payOrderId = it.data.payCode
+                mBackYBBean.payOrderId = if (it.code == 0 && it.data != null) it.data.payCode else ""
                 mBackYBBean.wayCode = if (type == 0) "CSSC_BAR" else "CSSC_CARD"
                 bookkeepingStateLayout(if (it.code == 0) 1 else 0, type, if (it.code == 0) "记账成功！" else "记账失败！")
                 orderUpdateRequesting = false
