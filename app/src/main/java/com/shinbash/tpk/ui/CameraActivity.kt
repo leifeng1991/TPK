@@ -68,8 +68,12 @@ class CameraActivity : AppCompatActivity() {
         BaseImageDispose(baseContext, object : BaseImageCallBack() {
             override fun onCompleted(bitmap: Bitmap) {
                 Log.d(TAG, "==onCompleted=============识别到人脸")
+                val os = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, os)
+                val bytes = os.toByteArray()
+                faceRecognizer(bytes, bitmap, null)
                 // 识别到人脸进行拍照
-                mCameraHelper?.takePic()
+//                mCameraHelper?.takePic()
             }
 
             override fun onProcessTips(actionCode: Int) {
@@ -217,11 +221,15 @@ class CameraActivity : AppCompatActivity() {
             val bytes = os.toByteArray()
             faceRecognizer(bytes, rawBitmap, rotatedBitMap)
             LogUtil.e(TAG, "==============rotatedBitMap===============${rotatedBitMap.width}===============${rotatedBitMap.height}")
-//            Glide.with(this).load(bytes).into(findViewById<ImageView>(R.id.takeImageView))
+//            val takeImageView = findViewById<ImageView>(R.id.takeImageView)
+//            takeImageView.visibility = View.VISIBLE
+//            Glide.with(this).load(bytes).into(takeImageView)
         } else {
             LogUtil.e(TAG, "==============rawBitmap===============${rawBitmap.width}===============${rawBitmap.height}")
             faceRecognizer(data, rawBitmap, null)
-//            Glide.with(this).load(data).into(findViewById<ImageView>(R.id.takeImageView))
+//            val takeImageView = findViewById<ImageView>(R.id.takeImageView)
+//            takeImageView.visibility = View.VISIBLE
+//            Glide.with(this).load(data).into(takeImageView)
         }
 
 

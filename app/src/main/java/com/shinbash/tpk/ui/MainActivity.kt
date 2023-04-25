@@ -182,16 +182,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
             // 立即支付
             mDataBinding.mPayRTv.setOnClickListener2 {
-                if (mDataBinding.mPaymentCodeRtv.isSelected) {
-                    mDataBinding.mWaitLayout.visibility = View.VISIBLE
-                }
-                if (mDataBinding.mCardPayRtv.isSelected) {
-                    mDataBinding.mWaitLayout.visibility = View.VISIBLE
-                }
+
                 if (mDataBinding.mFacePayRtv.isSelected) {
-                    mStartScanActivityForResult.launch(Intent(this@MainActivity, CameraActivity::class.java).apply {
+//                    Toast.makeText(this@MainActivity, "==========", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@MainActivity, CameraActivity::class.java).apply {
                         putExtra("mchOrderNo", mYBBean?.mchOrderNo ?: "")
-                    })
+                    }
+                    mStartScanActivityForResult.launch(intent)
+                } else if (mDataBinding.mPaymentCodeRtv.isSelected) {
+                    mDataBinding.mWaitLayout.visibility = View.VISIBLE
+                } else if (mDataBinding.mCardPayRtv.isSelected) {
+                    mDataBinding.mWaitLayout.visibility = View.VISIBLE
                 }
 
             }
