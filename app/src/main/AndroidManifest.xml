@@ -45,10 +45,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="com.shinbash.tpk.ui.AppFullScreenWebViewActivity"
-            android:exported="false"
-            android:theme="@style/FullScreenTheme" />
-        <activity
             android:name="com.shinbash.tpk.ui.CameraActivity"
             android:exported="false"
             android:theme="@style/FullScreenTheme" />
@@ -57,7 +53,7 @@
             android:exported="false"
             android:theme="@style/FullScreenTheme" />
         <activity
-            android:name="com.shinbash.tpk.ui.InputWebActivity"
+            android:name="com.shinbash.tpk.ui.AppFullScreenWebViewActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme">
             <intent-filter>

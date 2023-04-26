@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.shinbash.tpk",
+  "applicationId": "com.shinbash.tpk.web",
   "variantName": "debug",
   "elements": [
     {

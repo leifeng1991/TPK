@@ -56,7 +56,8 @@ class AppFullScreenWebViewActivity : BaseActivity<BaseActivityWebviewFullscreenB
             // 为空时记账成功 其他根据msg进行提示
             val tipMsg = intent.getStringExtra(MainActivity.TIP_MSG)
             val key = intent.getStringExtra("key")
-            webViewFragment?.callJavascriptMethod("callbackFaceRecognizer('${key}','${tipMsg}')")
+            val similar = intent.getStringExtra("similar")
+            webViewFragment?.callJavascriptMethod("callbackFaceRecognizer('${key}:${similar}:${tipMsg}')")
         }
     }
     private var cardType = 0
@@ -106,8 +107,8 @@ class AppFullScreenWebViewActivity : BaseActivity<BaseActivityWebviewFullscreenB
         // 网址
         val webUrl = intent.getStringExtra(WEB_URL)
         // 设置内容，传递网址
-        webViewFragment = AppWebViewFragment.newInstance(webUrl ?: "https://192.168.5.121:8000/")
-//        webViewFragment = AppWebViewFragment.newInstance(webUrl ?: "https://124.70.4.91:82/#/user/login")
+//        webViewFragment = AppWebViewFragment.newInstance(webUrl ?: "https://192.168.5.121:8000/")
+        webViewFragment = AppWebViewFragment.newInstance("https://124.70.4.91:82/")
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.mWebView, webViewFragment!!)// 将fragment设置到布局上
         fragmentTransaction.commitAllowingStateLoss()

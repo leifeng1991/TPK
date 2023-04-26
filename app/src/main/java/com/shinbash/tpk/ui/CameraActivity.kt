@@ -255,7 +255,7 @@ class CameraActivity : AppCompatActivity() {
                 mRequestFaceVeryTimes--
                 if (it.code == 200 && it.data != null && it.data.result != null && !TextUtils.isEmpty(it.data.result.key)) { // 成功
                     if (isWeb) {
-                        setActivityResult(key = it.data.result.key)
+                        setActivityResult(key = it.data.result.key, similar = "${it.data.result.similar}")
                     } else {
                         // 更新订单
                         orderUpdate(it.data.result.key, "${it.data.result.similar}")
@@ -335,12 +335,13 @@ class CameraActivity : AppCompatActivity() {
      * @param msg        提示信息
      * @param payOrderNo 记账成功订单号
      */
-    private fun setActivityResult(orderState: Int = 0, msg: String = "", payOrderNo: String = "", key: String = "") {
+    private fun setActivityResult(orderState: Int = 0, msg: String = "", payOrderNo: String = "", key: String = "", similar: String = "") {
         setResult(RESULT_OK, Intent().apply {
             putExtra(ORDER_STATE, orderState)
             putExtra(TIP_MSG, msg)
             putExtra(INTENT_PAY_ORDER_NO, payOrderNo)
             putExtra("key", key)
+            putExtra("similar", similar)
         })
         finish()
     }
