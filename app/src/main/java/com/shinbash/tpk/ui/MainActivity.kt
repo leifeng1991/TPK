@@ -419,7 +419,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 mBackYBBean.orderState = if (it.code == 0) "2" else "3"
                 mBackYBBean.payOrderId = if (it.code == 0 && it.data != null) it.data.payCode else ""
                 mBackYBBean.wayCode = if (type == 0) "CSSC_BAR" else "CSSC_CARD"
-                bookkeepingStateLayout(if (it.code == 0) 1 else 0, type, if (it.code == 0) "记账成功！" else "记账失败！")
+                bookkeepingStateLayout(if (it.code == 0) 1 else 0, type, if (it.code == 0) "记账成功！" else it.msg)
                 orderUpdateRequesting = false
             }, onFailure = {
                 LogUtil.e(TAG, "===orderUpdate========${it.toString()}")

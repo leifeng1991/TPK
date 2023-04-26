@@ -192,10 +192,10 @@ class CameraActivity : AppCompatActivity() {
 
         // 进行15秒倒计时，倒计时结束认为人脸识别超时
         lifecycleScope.launch {
-            repeat(15) {
+            repeat(30) {
                 delay(1000)
-                if (it == 14) {
-                    setActivityResult(0, "人脸识别超时")
+                if (it == 29) {
+                    setActivityResult(0, "人脸识别超时，请您重新识别")
                 }
             }
         }
@@ -249,9 +249,14 @@ class CameraActivity : AppCompatActivity() {
                 rotatedBitMap?.recycle()
                 rawBitmap?.recycle()
                 mRequestFaceVeryTimes--
-                if (it.code == 200 && it.data != null && it.data.result != null && !TextUtils.isEmpty(it.data.result.key)) { // 成功
-                    // 更新订单
-                    orderUpdate(it.data.result.key, "${it.data.result.similar}")
+                if (it.code == 200) { // 成功
+                    if (it.data != null && it.data.result != null && !TextUtils.isEmpty(it.data.result.key)){
+                        // 更新订单
+                        orderUpdate(it.data.result.key, "${it.data.result.similar}")
+                    }else{
+                        setActivityResult(0, "未识别到人脸")
+                    }
+
                 } else { // 失败
                     // 直接返回上一页
                     if (mIsSecond) {

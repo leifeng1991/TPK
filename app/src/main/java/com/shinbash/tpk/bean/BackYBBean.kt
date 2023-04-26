@@ -13,10 +13,10 @@ class BackYBBean {
     // 货币代码
     var currency: String? = null
 
-    // 支付方式
+    // 支付方式 条码支付 CSSC_BAR  人脸支付 CSSC_FR  船卡支付 CSSC_CARD
     var wayCode: String? = null
 
-    // 订单状态
+    // 订单状态 0-订单生成 1-支付中 2-支付成功 3-支付失败 4-已撤销 5-已退款 6-订单关闭
     var orderState: String? = null
 
     // 错误码
