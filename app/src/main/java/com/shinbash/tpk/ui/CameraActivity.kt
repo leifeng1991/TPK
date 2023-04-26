@@ -69,7 +69,7 @@ class CameraActivity : AppCompatActivity() {
             override fun onCompleted(bitmap: Bitmap) {
                 Log.d(TAG, "==onCompleted=============识别到人脸")
                 val os = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, os)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
                 val bytes = os.toByteArray()
                 faceRecognizer(bytes, bitmap, null)
                 // 识别到人脸进行拍照

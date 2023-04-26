@@ -13,6 +13,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
@@ -83,9 +84,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 if (mIdCardService != null) {
                     mMifareService = mIdCardService?.miFareCardService
                     Log.d(TAG, "get mifare card.")
+                    Toast.makeText(this@MainActivity,"get mifare card.",Toast.LENGTH_SHORT).show()
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Toast.makeText(this@MainActivity,"船卡识别打开异常：$e",Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -327,6 +330,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             newHandlerWork {
                 try {
                     val snr = ByteArray(10)
+                    val cardtype = ByteArray(8)
+                    val st = mMifareService!!.rfCard(cardtype, snr)
                     val uid = ByteArray(4)
                     System.arraycopy(snr, 0, uid, 0, uid.size)
                     runOnUiThread {
