@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.AI.FaceVerify.baseImage.BaseImageCallBack
 import com.AI.FaceVerify.baseImage.BaseImageDispose
+import com.AI.FaceVerify.view.FaceCoverView
 import com.google.gson.Gson
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
@@ -44,7 +45,7 @@ import java.io.ByteArrayOutputStream
 
 class CameraActivity : AppCompatActivity() {
     // 人脸圆框
-    private var faceView: FaceView? = null
+    private var faceView: FaceCoverView? = null
 
     // 摄像头工具类
     private var mCameraHelper: CameraHelper? = null
@@ -192,9 +193,9 @@ class CameraActivity : AppCompatActivity() {
 
         // 进行15秒倒计时，倒计时结束认为人脸识别超时
         lifecycleScope.launch {
-            repeat(30) {
+            repeat(10) {
                 delay(1000)
-                if (it == 29) {
+                if (it == 9) {
                     setActivityResult(0, "人脸识别超时，请您重新识别")
                 }
             }
@@ -202,7 +203,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() { //释放资源
-        faceView?.destroyView()
+//        faceView?.destroyView()
         mCameraHelper?.releaseCamera()
         super.onDestroy()
     }
@@ -254,19 +255,20 @@ class CameraActivity : AppCompatActivity() {
                         // 更新订单
                         orderUpdate(it.data.result.key, "${it.data.result.similar}")
                     }else{
-                        setActivityResult(0, "未识别到人脸")
+                        setActivityResult(0, it.message)
                     }
 
                 } else { // 失败
                     // 直接返回上一页
                     if (mIsSecond) {
+                        mRequestFaceVeryTimes--
                         if (mRequestFaceVeryTimes == 0) {
-                            setActivityResult(0, "人脸识别失败")
+                            setActivityResult(0, it.message)
                         } else {
                             isPrameFace = false
                         }
                     } else {
-                        setActivityResult(0, "人脸识别失败")
+                        setActivityResult(0, it.message)
                     }
                 }
 
@@ -316,7 +318,7 @@ class CameraActivity : AppCompatActivity() {
                     }
 
                     else -> {
-                        setActivityResult(0, "记账失败！")
+                        setActivityResult(0, it.msg)
                     }
                 }
             }, onFailure = {

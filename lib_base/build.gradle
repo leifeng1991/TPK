@@ -60,7 +60,7 @@ dependencies {
     // tabLayout
     api 'io.github.h07000223:flycoTabLayout:3.0.0'
     // RWidgetHelper shape
-    api 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
+    api 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.13'
     // 核心必须依赖
     api 'com.scwang.smart:refresh-layout-kernel:2.0.3'
     // 经典刷新头

@@ -13,7 +13,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
@@ -24,6 +23,7 @@ import com.moufans.lib_base.ext.setOnClickListener2
 import com.moufans.lib_base.utils.LogUtil
 import com.shinbash.tpk.R
 import com.shinbash.tpk.bean.BackYBBean
+import com.shinbash.tpk.bean.GoodsBean
 import com.shinbash.tpk.bean.OrderCreateBean
 import com.shinbash.tpk.bean.OrderUpdateBean
 import com.shinbash.tpk.bean.YBBean
@@ -84,11 +84,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 if (mIdCardService != null) {
                     mMifareService = mIdCardService?.miFareCardService
                     Log.d(TAG, "get mifare card.")
-                    Toast.makeText(this@MainActivity,"get mifare card.",Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@MainActivity, "get mifare card.", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
-                Toast.makeText(this@MainActivity,"船卡识别打开异常：$e",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity, "船卡识别打开异常：$e", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -138,13 +138,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             mDataBinding.apply {
                 // 只有K2设备有船卡识别功能 其他设备不显示船卡识别按钮
                 mCardPayRtv.visibility = if (Build.BOARD == "K2") View.VISIBLE else View.GONE
-                mOrderCardSpace.visibility = if (Build.BOARD == "K2") View.VISIBLE else View.GONE
                 // 设置记账金额
                 mPriceTv.text = mYBBean?.amount
                 // 设置记账订单号
                 mOrderNumberTv.text = "订单号：${mYBBean?.mchOrderNo}"
                 // 默认扫码记账
-                mPaymentCodeRtv.isSelected = true
+                mPaymentCodeRtv.isChecked = true
             }
 
             // 船卡识别检测
@@ -163,38 +162,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         mDataBinding.apply {
             // 扫码支付
             mPaymentCodeRtv.setOnClickListener2 {
-                mPaymentCodeRtv.isSelected = true
-                mCardPayRtv.isSelected = false
-                mFacePayRtv.isSelected = false
-                mWaitTipIv.setImageResource(R.mipmap.ic_wait_scan_code)
-                mWaitTipTv.text = "请出示二维码，在扫码口扫码"
+                mPaymentCodeRtv.isChecked = true
             }
             // 船卡支付
             mCardPayRtv.setOnClickListener2 {
-                mPaymentCodeRtv.isSelected = false
-                mCardPayRtv.isSelected = true
-                mFacePayRtv.isSelected = false
-                mWaitTipIv.setImageResource(R.mipmap.ic_wait_card)
-                mWaitTipTv.text = "请出示船卡，在刷卡处刷卡"
+                mCardPayRtv.isChecked = true
             }
             // 人脸支付
             mDataBinding.mFacePayRtv.setOnClickListener2 {
-                mPaymentCodeRtv.isSelected = false
-                mCardPayRtv.isSelected = false
-                mFacePayRtv.isSelected = true
+                mFacePayRtv.isChecked = true
             }
             // 立即支付
             mDataBinding.mPayRTv.setOnClickListener2 {
 
-                if (mDataBinding.mFacePayRtv.isSelected) {
-//                    Toast.makeText(this@MainActivity, "==========", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity, "==========", Toast.LENGTH_SHORT).show()
+                if (mDataBinding.mFacePayRtv.isChecked) {
                     val intent = Intent(this@MainActivity, CameraActivity::class.java).apply {
                         putExtra("mchOrderNo", mYBBean?.mchOrderNo ?: "")
                     }
                     mStartScanActivityForResult.launch(intent)
-                } else if (mDataBinding.mPaymentCodeRtv.isSelected) {
+                } else if (mDataBinding.mPaymentCodeRtv.isChecked) {
                     mDataBinding.mWaitLayout.visibility = View.VISIBLE
-                } else if (mDataBinding.mCardPayRtv.isSelected) {
+                } else if (mDataBinding.mCardPayRtv.isChecked) {
                     mDataBinding.mWaitLayout.visibility = View.VISIBLE
                 }
 
@@ -262,7 +251,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (mDataBinding.mPaymentCodeRtv.isSelected && mDataBinding.mWaitLayout.visibility == View.VISIBLE) {
+        if (mDataBinding.mPaymentCodeRtv.isChecked && mDataBinding.mWaitLayout.visibility == View.VISIBLE) {
             when (event.action) {
                 KeyEvent.ACTION_DOWN -> {
                     val unicodeChar = event.unicodeChar
@@ -326,7 +315,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     private fun onGetMifareUid() {
         if (Build.BOARD != "K2") return
-        if (mDataBinding.mCardPayRtv.isSelected && mDataBinding.mWaitLayout.visibility == View.VISIBLE) {
+        if (mDataBinding.mCardPayRtv.isChecked && mDataBinding.mWaitLayout.visibility == View.VISIBLE) {
             newHandlerWork {
                 try {
                     val snr = ByteArray(10)
@@ -368,13 +357,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             orderCreateBean.mchOrderNo = mYBBean?.mchOrderNo
             orderCreateBean.amount = mYBBean?.amount
             orderCreateBean.currency = mYBBean?.currency
-            orderCreateBean.airRangeId = "1"
-            orderCreateBean.storeId = "123"
             val extParam = mYBBean?.extParam
             if (!TextUtils.isEmpty(extParam)) {
                 try {
-                    val goodList = Gson().fromJson<ArrayList<OrderCreateBean.GoodsInfosBean>>(extParam, object : TypeToken<ArrayList<OrderCreateBean.GoodsInfosBean>>() {}.type)
-                    orderCreateBean.goodsInfos = goodList
+                    val goodList = Gson().fromJson<ArrayList<GoodsBean>>(extParam, object : TypeToken<ArrayList<GoodsBean>>() {}.type)
+                    val list = mutableListOf<OrderCreateBean.GoodsInfosBean>()
+                    for (g in goodList) {
+                        val goodsBean = OrderCreateBean.GoodsInfosBean()
+                        goodsBean.goodsName = g.name
+                        goodsBean.price = g.price
+                        goodsBean.count = g.qty
+                        list.add(goodsBean)
+
+                    }
+                    orderCreateBean.goodsInfos = list
                 } catch (e: Exception) {
                     LogUtil.e(TAG, "======orderCreate======gson格式化异常========${e}")
                 }

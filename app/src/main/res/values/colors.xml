@@ -19,4 +19,5 @@
     <color name="viewBgWhite">#FFFFFFFF</color>
     <color name="back_one">#FF666666</color>
     <color name="back_two">#1A53FF</color>
+    <color name="half_white">#FFFFFFFF</color>
 </resources>

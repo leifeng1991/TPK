@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.shinbash.tpk.yb",
+  "applicationId": "com.shinbash.tpk",
   "variantName": "release",
   "elements": [
     {

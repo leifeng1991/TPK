@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,10 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.shinbash.tpk.view.FaceView
-        android:id="@+id/face_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <com.AI.FaceVerify.view.FaceCoverView
+            android:id="@+id/face_view"
+            customAttr:circle_margin="@dimen/sw_100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+<!--    <com.shinbash.tpk.view.FaceView2-->
+<!--        android:id="@+id/face_view"-->
+<!--        customAttr:circle_margin="30dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
     <ImageView
         android:id="@+id/takeImageView"

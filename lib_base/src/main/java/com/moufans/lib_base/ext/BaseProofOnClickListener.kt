@@ -7,7 +7,7 @@ fun View.setOnClickListener2(consumptionWindowInMs: Long = 1000L, listener: View
 }
 
 @JvmOverloads
-fun View.setOnClickListener2(consumptionWindowInMs: Long = 1000L, listener: (View) -> Unit) {
+fun View.setOnClickListener2(consumptionWindowInMs: Long = 300L, listener: (View) -> Unit) {
     setOnClickListener(ClickListenerWrapper(consumptionWindowInMs, listener))
 }
 

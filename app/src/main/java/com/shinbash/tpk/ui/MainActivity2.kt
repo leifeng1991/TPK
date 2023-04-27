@@ -2,12 +2,14 @@ package com.shinbash.tpk.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.gson.Gson
 import com.gyf.immersionbar.ktx.hideStatusBar
 import com.moufans.lib_base.base.activity.BaseActivity
 import com.shinbash.tpk.R
 import com.shinbash.tpk.bean.BackYBBean
+import com.shinbash.tpk.bean.GoodsBean
 import com.shinbash.tpk.bean.OrderCreateBean
 import com.shinbash.tpk.bean.YBBean
 import com.shinbash.tpk.databinding.ActivityMain2Binding
@@ -39,6 +41,8 @@ class MainActivity2 : BaseActivity<ActivityMain2Binding>() {
     override fun initView() {
         setHeaderViewVisibleByWebView(false)
         refreshJsonData()
+
+
     }
 
     override fun initListener() {
@@ -54,11 +58,15 @@ class MainActivity2 : BaseActivity<ActivityMain2Binding>() {
     }
 
     override fun processingLogic() {
+        if (Build.BOARD == "P2") {
+            startActivity(AppFullScreenWebViewActivity.newIntent(this, "https://124.70.4.91:82/"))
+            finish()
+        }
     }
 
     private fun refreshJsonData() {
         val mYBBean = YBBean()
-        mYBBean.mchNumber = "100000001"
+        mYBBean.mchNumber = "M1673407452"
         mYBBean.appId = "123456"
         mYBBean.mchOrderNo = "D${System.currentTimeMillis()}"
         mYBBean.amount = "0.01"
@@ -67,11 +75,13 @@ class MainActivity2 : BaseActivity<ActivityMain2Binding>() {
         mYBBean.reqTime = "${System.currentTimeMillis()}"
         mYBBean.sign = "${System.currentTimeMillis()}"
 
-        val goodsList = ArrayList<OrderCreateBean.GoodsInfosBean>()
-        val goodsBean = OrderCreateBean.GoodsInfosBean()
-        goodsBean.goodsName = "商品名称"
-        goodsBean.count = "10"
+        val goodsList = ArrayList<GoodsBean>()
+        val goodsBean = GoodsBean()
+        goodsBean.barcode = "111000011100"
+        goodsBean.name = "商品名称"
+        goodsBean.qty = "10"
         goodsBean.price = "0.01"
+        goodsBean.totalAmount = "0.01"
         goodsList.add(goodsBean)
         mYBBean.extParam = Gson().toJson(goodsList)
 
