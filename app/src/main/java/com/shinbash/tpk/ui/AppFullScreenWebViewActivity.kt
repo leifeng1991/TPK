@@ -108,7 +108,7 @@ class AppFullScreenWebViewActivity : BaseActivity<BaseActivityWebviewFullscreenB
         val webUrl = intent.getStringExtra(WEB_URL)
         // 设置内容，传递网址
 //        webViewFragment = AppWebViewFragment.newInstance(webUrl ?: "https://192.168.5.121:8000/")
-        webViewFragment = AppWebViewFragment.newInstance("https://124.70.4.91:82/")
+        webViewFragment = AppWebViewFragment.newInstance("https://36.110.167.44:82/")
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.mWebView, webViewFragment!!)// 将fragment设置到布局上
         fragmentTransaction.commitAllowingStateLoss()

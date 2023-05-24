@@ -29,7 +29,7 @@
                 android:id="@+id/webEt"
                 android:layout_width="0dp"
                 android:hint="请输入网址"
-                android:text="https://124.70.4.91:82/"
+                android:text="https://36.110.167.44:82/"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 

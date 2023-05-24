@@ -112,7 +112,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setHeaderViewVisibleByWebView(false)
         LogUtil.e(TAG, "=========BOARD========${Build.BOARD}")
         if (Build.BOARD == "P2") {
-            startActivity(AppFullScreenWebViewActivity.newIntent(this, "https://124.70.4.91:82/"))
+            startActivity(AppFullScreenWebViewActivity.newIntent(this, "https://36.110.167.44:82/"))
             finish()
         } else {
             val intentJson = intent.getStringExtra(INTENT_EXT_PARAM)
