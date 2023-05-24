@@ -1,8 +1,8 @@
 package com.shinbash.tpk.bean
 
 class BackYBBean {
-    // 商户号
-    var mchNumber: String? = null
+    // 商户订单号
+    var mchOrderNo: String? = null
 
     // 支付订单号
     var payOrderId: String? = null

@@ -115,23 +115,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setHeaderViewVisibleByWebView(false)
         LogUtil.e(TAG, "=========BOARD========${Build.BOARD}")
         if (Build.BOARD == "P2") {
-            startActivity(AppFullScreenWebViewActivity.newIntent(this, "https://124.70.4.91:82/"))
+            startActivity(AppFullScreenWebViewActivity.newIntent(this, "https://36.110.167.44:82/"))
             finish()
         } else {
             val intentJson = intent.getStringExtra(INTENT_EXT_PARAM)
             if (TextUtils.isEmpty(intentJson)) {
-                setResult("1")
+                setResult(message = "传参空")
                 return
             }
 
             try {
                 mYBBean = Gson().fromJson(intentJson, YBBean::class.java)
-                mBackYBBean.mchNumber = mYBBean?.mchNumber
+                mBackYBBean.mchOrderNo = mYBBean?.mchOrderNo
                 mBackYBBean.amount = mYBBean?.amount
                 mBackYBBean.currency = mYBBean?.currency
                 mBackYBBean.sign = mYBBean?.sign
             } catch (e: Exception) {
-                setResult("2")
+                setResult(message = "Json 格式化异常")
                 return
             }
 
@@ -195,7 +195,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         // 返回
         mDataBinding.mBackRTv.setOnClickListener2 {
-            setResult("4")
+            setResult(message = "Success")
         }
         mDataBinding.mStateRTv.setOnClickListener2 {
             // 失败，进行相应操作
@@ -380,7 +380,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 LogUtil.e(TAG, "===orderCreate===成功=====${it}")
             }, onFailure = {
                 LogUtil.e(TAG, "===orderCreate====失败===$it")
-                setResult("3==${it.message}")
+                setResult(message = "创建订单失败")
             })
         }
     }
@@ -476,14 +476,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     /**
      * 返回银豹app数据
      */
-    private fun setResult(state: String = "0") {
+    private fun setResult(state: String = "", message: String = "") {
         LogUtil.e(TAG, "===============setResult=============")
         if (TextUtils.isEmpty(mBackYBBean.orderState)) {
-//            mBackYBBean.orderState = "4"
             mBackYBBean.orderState = state
         }
         mBackYBBean.code = "0"
-        mBackYBBean.message = "message"
+        mBackYBBean.message = message
         mBackYBBean.notifyTime = "${System.currentTimeMillis()}"
         val contentJson = Gson().toJson(mBackYBBean)
         setResult(RESULT_OK, Intent().apply {

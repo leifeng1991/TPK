@@ -64,9 +64,9 @@ android {
             // Apk重命名
             if (versionBuild == 0) {
                 // 0上线版本，不带versionBuild
-                outputFileName = "shinbash_tpk_${defaultConfig.versionName}_${variant/*. productFlavors[0]*/.name}.apk"
+                outputFileName = "shinbash_tpk_v${defaultConfig.versionName}_${variant/*. productFlavors[0]*/.name}_${new Date().format("yyyyMMddHHmmss")}.apk"
             } else {
-                outputFileName = "shinbash_tpk_${defaultConfig.versionName}_${versionBuild}_${variant/*.productFlavors[0]*/.name}.apk"
+                outputFileName = "shinbash_tpk_v${defaultConfig.versionName}_${versionBuild}_${variant/*.productFlavors[0]*/.name}_${new Date().format("yyyyMMddHHmmss")}.apk"
             }
         }
     }

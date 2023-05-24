@@ -59,7 +59,7 @@ class MainActivity2 : BaseActivity<ActivityMain2Binding>() {
 
     override fun processingLogic() {
         if (Build.BOARD == "P2") {
-            startActivity(AppFullScreenWebViewActivity.newIntent(this, "https://124.70.4.91:82/"))
+            startActivity(AppFullScreenWebViewActivity.newIntent(this, "https://36.110.167.44:82/"))
             finish()
         }
     }
