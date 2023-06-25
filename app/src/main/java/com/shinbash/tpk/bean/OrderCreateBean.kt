@@ -30,6 +30,8 @@ class OrderCreateBean {
         var goodsName: String? = null
         var count: String? = null
         var price: String? = null
+        var barcode: String? = null
+        var totalAmount: String? = null
         override fun toString(): String {
             return "GoodsInfosBean(goodsName=$goodsName, count=$count, price=$price)"
         }

@@ -183,8 +183,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mStartScanActivityForResult.launch(intent)
                 } else if (mDataBinding.mPaymentCodeRtv.isChecked) {
                     mDataBinding.mWaitLayout.visibility = View.VISIBLE
+                    mDataBinding.mWaitTipIv.setImageResource(R.mipmap.ic_wait_scan_code)
+                    mDataBinding.mWaitTipTv.text = "请出示二维码，在扫码口扫码"
                 } else if (mDataBinding.mCardPayRtv.isChecked) {
                     mDataBinding.mWaitLayout.visibility = View.VISIBLE
+                    mDataBinding.mWaitTipIv.setImageResource(R.mipmap.ic_wait_card)
+                    mDataBinding.mWaitTipTv.text = "请出示船卡，在刷卡处刷卡"
                 }
 
             }
@@ -201,27 +205,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             // 失败，进行相应操作
             // 隐藏状态界面
             mDataBinding.mOrderStateLl.visibility = View.GONE
-            when (mDataBinding.mStateRTv.text.toString()) {
-                // 扫码
-                "重新扫码" -> {
-                    mDataBinding.mWaitLayout.visibility = View.VISIBLE
-                    mDataBinding.mWaitTipIv.setImageResource(R.mipmap.ic_wait_scan_code)
-                    mDataBinding.mWaitTipTv.text = "请出示二维码，在扫码口扫码"
-                }
-                // 船卡
-                "重新识卡" -> {
-                    mDataBinding.mWaitLayout.visibility = View.VISIBLE
-                    mDataBinding.mWaitTipIv.setImageResource(R.mipmap.ic_wait_card)
-                    mDataBinding.mWaitTipTv.text = "请出示船卡，在刷卡处刷卡"
-                }
-                // 人脸识别
-                "重新识别" -> {
-                    mStartScanActivityForResult.launch(Intent(this@MainActivity, CameraActivity::class.java).apply {
-                        putExtra(INTENT_MCH_ORDER_NO, mYBBean?.mchOrderNo)
-                    })
-                }
-
-                else -> {}
+            if (mDataBinding.mPaymentCodeRtv.isChecked){
+                mDataBinding.mWaitLayout.visibility = View.VISIBLE
+                mDataBinding.mWaitTipIv.setImageResource(R.mipmap.ic_wait_scan_code)
+                mDataBinding.mWaitTipTv.text = "请出示二维码，在扫码口扫码"
+            }else if (mDataBinding.mCardPayRtv.isChecked){
+                mDataBinding.mWaitLayout.visibility = View.VISIBLE
+                mDataBinding.mWaitTipIv.setImageResource(R.mipmap.ic_wait_card)
+                mDataBinding.mWaitTipTv.text = "请出示船卡，在刷卡处刷卡"
+            }else if (mDataBinding.mFacePayRtv.isChecked){
+                mStartScanActivityForResult.launch(Intent(this@MainActivity, CameraActivity::class.java).apply {
+                    putExtra(INTENT_MCH_ORDER_NO, mYBBean?.mchOrderNo)
+                })
             }
         }
     }
@@ -367,6 +362,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         goodsBean.goodsName = g.name
                         goodsBean.price = g.price
                         goodsBean.count = g.qty
+                        goodsBean.barcode = g.barcode
+                        goodsBean.totalAmount = g.totalAmount
                         list.add(goodsBean)
 
                     }
