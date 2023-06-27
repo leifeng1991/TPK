@@ -21,6 +21,9 @@ open class HttpAddHeadersInterceptor : Interceptor {
             addHeader("Device-Type", "android")
             // 设置唯一id
             addHeader("Device-Id", DeviceUtils.getDeviceId())
+            // 主板
+            addHeader("Device-Board", Build.BOARD)
+            addHeader("tenant-id ", "1")
             setHeader(this)
             addHeader("Content-Type", "application/json;charset=utf-8")
         }.build()
