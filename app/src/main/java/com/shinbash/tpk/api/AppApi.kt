@@ -14,21 +14,21 @@ interface AppApi {
     /**
      * 上传图片
      */
-    @POST("http://36.110.167.44:8001/seetaface6/seetaface/seach")
-    suspend fun uploadDamo(@Body multipartBody: MultipartBody): SearchBean
+    @POST("http://36.110.167.44:8082/seetaface6/seetaface/seach")
+    suspend fun uploadImg(@Body multipartBody: MultipartBody): SearchBean
 
 
     /**
      * 创建订单
      */
-    @POST("http://36.110.167.44:9217/api/order/create")
+    @POST("http://36.110.167.44:48090/admin-api/mall/trade/order/create")
     suspend fun orderCreate(@Body requestBody: RequestBody): CreateOrderBean
 
 
     /**
      * 修改订单
      */
-    @POST("http://36.110.167.44:9217/api/order/update")
+    @POST("http://36.110.167.44:48090/admin-api/mall/trade/order/update")
     suspend fun orderUpdate(@Body requestBody: RequestBody): ResultBean
 }
 

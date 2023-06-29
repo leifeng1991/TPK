@@ -34,7 +34,6 @@ import com.shinbash.tpk.ui.MainActivity.Companion.INTENT_PAY_ORDER_NO
 import com.shinbash.tpk.ui.MainActivity.Companion.ORDER_STATE
 import com.shinbash.tpk.ui.MainActivity.Companion.TIP_MSG
 import com.shinbash.tpk.utils.CameraHelper
-import com.shinbash.tpk.view.FaceView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -245,7 +244,7 @@ class CameraActivity : AppCompatActivity() {
         val fileBody: RequestBody = RequestBody.create("application/octet-stream".toMediaTypeOrNull(), data)
         builder.addFormDataPart("faceImage", fileName, fileBody)
         lifecycleScope.launch {
-            rawReqExecute({ appApi.uploadDamo(builder.build()) }, onSuccess = {
+            rawReqExecute({ appApi.uploadImg(builder.build()) }, onSuccess = {
                 LogUtil.e(TAG, "=========onSuccess===========${it.toString()}")
                 rotatedBitMap?.recycle()
                 rawBitmap?.recycle()
