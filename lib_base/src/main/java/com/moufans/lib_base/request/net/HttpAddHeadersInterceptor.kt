@@ -17,15 +17,9 @@ open class HttpAddHeadersInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         request = request.newBuilder().apply {
-            // 设备类型 Android
-            addHeader("Device-Type", "android")
-            // 设置唯一id
-            addHeader("Device-Id", DeviceUtils.getDeviceId())
             // 主板
             addHeader("Device-Board", Build.BOARD)
             addHeader("tenant-id ", "1")
-            setHeader(this)
-            addHeader("Content-Type", "application/json;charset=utf-8")
         }.build()
         return chain.proceed(request)
     }
