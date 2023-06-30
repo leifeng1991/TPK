@@ -18,8 +18,10 @@ class HttpAddHeadersInterceptor : Interceptor {
         request = request.newBuilder().apply {
             // 主板
             addHeader("Device-Board", Build.BOARD)
+            addHeader("tenant-id", "1")
         }.build()
         return chain.proceed(request)
     }
+
 
 }
