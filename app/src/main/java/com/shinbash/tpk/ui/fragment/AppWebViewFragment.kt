@@ -2,6 +2,7 @@ package com.shinbash.tpk.ui.fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -14,6 +15,7 @@ import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import com.moufans.lib_base.R
 import com.moufans.lib_base.base.activity.BaseActivity
 import com.moufans.lib_base.base.fragment.ReuseViewFragment
@@ -49,6 +54,17 @@ class AppWebViewFragment : ReuseViewFragment<BaseFragmentWebviewBinding>() {
     private var customView: View? = null
     private var fullscreenContainer: FrameLayout? = null
     private var customViewCallback: WebChromeClient.CustomViewCallback? = null
+
+    /**
+     * 不同方式的请求码
+     */
+    val REQUEST_SELECT_FILE = 100
+    val FILECHOOSER_RESULTCODE = 1
+
+    /**
+     * 接收安卓5.0以上的
+     */
+    var uploadMessage: ValueCallback<Array<Uri>>? = null
 
     override fun getLayoutId(): Int {
         return R.layout.base_fragment_webview
@@ -279,31 +295,47 @@ class AppWebViewFragment : ReuseViewFragment<BaseFragmentWebviewBinding>() {
             mWebView?.post { mWebView?.loadUrl("javascript:exitFullscreen()") }
         }
 
-        // TODO 选择文件未适配低版本和部分机型
-        // file upload callback (Android 4.1 (API level 16) -- Android 4.3 (API level 18)) (hidden method)
-        fun openFileChooser(
-            valueCallback: ValueCallback<Uri>, acceptType: String, capture: String
-        ) {
-            LogUtil.e("fffff", "openFileChooser 3")
-        }
+        override fun onShowFileChooser(webView: WebView?, filePathCallback: ValueCallback<Array<Uri>>?, fileChooserParams: FileChooserParams?): Boolean {
+            XXPermissions.with(this@AppWebViewFragment).permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE).request(object : OnPermissionCallback {
 
-        // file upload callback (Android 5.0 (API level 21) -- current) (public method)
-        override fun onShowFileChooser(
-            webView: WebView?, filePathCallback: ValueCallback<Array<Uri>>?, fileChooserParams: FileChooserParams?
-        ): Boolean {
-            LogUtil.e("fffff", "onShowFileChooser")
-//            mPermissionHelper.requestPermissions("请授予[相机][读写]权限，否则无法拍照和选择文件", object : PermissionHelper.PermissionListener {
-//                override fun doAfterGrand(vararg permission: String) {
-//                    // 请求权限成功
-//                    showFileChooser()
-//                }
-//
-//                override fun doAfterDenied(vararg permission: String) {
-//                    // 设置失败
-//                }
-//            }, android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
+                    if (!allGranted) {
+                        return
+                    }
+
+                    if (uploadMessage != null) {
+                        uploadMessage!!.onReceiveValue(null)
+                        uploadMessage = null
+                    }
+                    uploadMessage = filePathCallback
+                    val intent = fileChooserParams!!.createIntent()
+                    startActivityForResult(intent, REQUEST_SELECT_FILE)
+
+                }
+
+                override fun onDenied(permissions: MutableList<String>, doNotAskAgain: Boolean) {
+
+                }
+            })
+
             return true
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode === REQUEST_SELECT_FILE) {
+            if (uploadMessage == null) return
+            uploadMessage!!.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data))
+            uploadMessage = null
+        }
+    }
+
+    private fun openFileChooseProcess() {
+        val i = Intent(Intent.ACTION_GET_CONTENT)
+        i.addCategory(Intent.CATEGORY_OPENABLE)
+        i.type = "image/*"
+        startActivityForResult(Intent.createChooser(i, "Choose"), 111)
     }
 
     internal inner class MyWebViewClient : WebViewClient() {
